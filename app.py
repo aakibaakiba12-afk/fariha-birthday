@@ -1,87 +1,115 @@
 import streamlit as st
 import time
-import random
 from datetime import datetime
 
-# 1. Setting Birthday to May 3rd
-now = datetime.now()
-target_year = now.year
-if now.month > 5 or (now.month == 5 and now.day >= 3):
-    target_year = now.year + 1
-birthday_date = datetime(target_year, 5, 3, 0, 0, 0)
-
 # Page Setup
-st.set_page_config(page_title="Happy Birthday Fariha!", page_icon="🎂", layout="centered")
+st.set_page_config(page_title="HBD Fariha!", page_icon="🎂")
 
-# 2. Countdown Logic
-def get_countdown():
-    diff = birthday_date - datetime.now()
-    if diff.total_seconds() > 0:
-        days = diff.days
-        hours, remainder = divmod(diff.seconds, 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return f"{days}d : {hours}h : {minutes}m : {seconds}s"
-    else:
-        return "IT'S YOUR DAY! 🎂"
+# Custom Design
+st.markdown("""
+    <style>
+    .stApp { background-color: #ffffff; } 
+    .countdown-box {
+        font-size: 25px; color: #d81b60; text-align: center;
+        background: #f8f9fa; padding: 15px; border-radius: 15px;
+        border: 2px dashed #d81b60; font-weight: bold;
+    }
+    .age-fact {
+        font-size: 22px; color: #d81b60; text-align: center;
+        margin-top: 15px; font-weight: bold;
+    }
+    /* উইশের টেক্সট স্টাইল */
+    .wish-pink { font-size: 20px; color: #ff4081; font-weight: bold; text-align: center; line-height: 2.0; }
+    .wish-blue { font-size: 20px; color: #1e88e5; font-weight: bold; text-align: center; line-height: 2.0; }
+    
+    .cake-text { font-size: 24px; color: #d81b60; text-align: center; font-weight: bold; margin-top: 20px; }
+    .footer { text-align: center; color: #880e4f; font-weight: bold; font-size: 16px; margin-top: 40px; padding-bottom: 20px; }
+    .stButton>button { background-color: #ff4081; color: white; font-size: 25px; font-weight: bold; border-radius: 15px; height: 3em; width: 100%; }
+    </style>
+    """, unsafe_allow_html=True)
 
-# Display Countdown
-st.markdown("<h2 style='text-align: center; color: #FF69B4;'>⏳ The Big Surprise In...</h2>", unsafe_allow_html=True)
-st.markdown(f"<h1 style='text-align: center; color: #4B0082;'>{get_countdown()}</h1>", unsafe_allow_html=True)
+# --- 1. COUNTDOWN ---
+target_date = datetime(2026, 5, 3) 
+now = datetime.now()
+diff = target_date - now
 
-st.write("---")
-
-# 3. Main Birthday Header
-st.markdown("<h1 style='text-align: center; color: #FF4B4B;'>🎈 Happy Birthday, Fariha! 🎈</h1>", unsafe_allow_html=True)
-
-# 4. The "Special" Wish Button
-if st.button('Click for a Surprise! 🎁'):
-    st.balloons()
-    st.snow()
-    st.success("ami tore sobar theke alada bhabe wish korte chaisilammmm ellegia eta banaisiiiiiiiiiiiii")
-
-st.write("---")
-
-# 5. The Compliment/Prank Button (Your Requested Addition)
-st.header("✨ A Little Message for You")
-st.write("Click the button below to see what I think of you:")
-
-# List of compliments and your funny prank
-messages = [
-    "You are amazing! ✨",
-    "Tui ekta kutta! 🐶",
-    "You have the best laugh! 😂",
-    "Tui ekটা pagol! 🤪",
-    "You make everything better! 🌸"
-]
-
-if st.button('Click for a Truth! 💡'):
-    msg = random.choice(messages)
-    if "kutta" in msg or "pagol" in msg:
-        st.error(msg) # Red box for the prank
-    else:
-        st.info(msg) # Blue box for compliments
-
-st.write("---")
-
-# 6. Candle Blow Section-
-st.header("🕯️ Blow the Candle")
-candle = st.checkbox("Blow! (Click here)")
-
-if candle:
-    st.markdown("<h1 style='text-align: center;'>🥳 🎂 ✨</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center;'>Phew! Make a wish, Fariha!</h2>", unsafe_allow_html=True)
+if diff.total_seconds() > 0:
+    days = diff.days
+    hours, remainder = divmod(diff.seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    st.markdown(f'<div class="countdown-box">⏳ Time remaining for Fariha\'s Birthday: <br> {days} Days, {hours} Hours, {minutes} Minutes </div>', unsafe_allow_html=True)
 else:
-    st.markdown("<h1 style='text-align: center;'>🕯️ 🎂</h1>", unsafe_allow_html=True)
+    st.markdown('<div class="countdown-box">🎉 Today is Fariha\'s Special Day! 🎉</div>', unsafe_allow_html=True)
+
+# --- 2. AGE FUN FACT ---
+birth_date = datetime(2011, 5, 3) 
+days_alive = (now - birth_date).days
+st.markdown(f'<div class="age-fact">🌟 Fariha, you have been awesome for {days_alive:,} days! 🌟</div>', unsafe_allow_html=True)
+
+# --- 3. BIG BALLOON BUTTON ---
+st.write("")
+if st.button("CLICK HEREEEEEEEEEE 🎈✨", use_container_width=True):
+    with st.empty():
+        for i in range(8): 
+            st.balloons()
+            time.sleep(2)
 
 st.write("---")
 
-# 7. Heartfelt Message
-with st.expander("💌 Read my heartfelt message"):
-    st.write("""
-    Dear Fariha,
-    Today is all about you! I built this because you deserve something as unique as you are. 
-    May your year be filled with success, laughter, and endless joy. 
-    Happy Birthday, Fariha! 🎂🎉✨
-    """)
+# --- 4. 100 WISHES (Blue Title & Multi-color Text) ---
+st.markdown('<p style="text-align:center; font-size:28px; color:#1e88e5; font-weight:bold;">✨ 100 Wishes For You ✨</p>', unsafe_allow_html=True)
 
-st.caption("Made with ❤️ by Your Best Friend")
+for i in range(1, 101):
+    if i % 2 != 0:
+        st.markdown(f'<p class="wish-pink">{i}. Happy Birthday to you Fariha 🎂💖</p>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<p class="wish-blue">{i}. Happy Birthday to you Fariha 🎂💖</p>', unsafe_allow_html=True)
+
+st.write("---")
+
+# --- 5. CAKE & SURPRISE ---
+if "blown" not in st.session_state:
+    st.session_state.blown = False
+if "prank_step" not in st.session_state:
+    st.session_state.prank_step = 0
+
+# কেকের ছবি (Static Image as backup)
+st.image("https://freepik.com", width=500)
+
+if not st.session_state.blown:
+    st.markdown('<p class="cake-text">🕯️ Blow the candle to start the magic!</p>', unsafe_allow_html=True)
+    if st.button("Blow the Candle! 💨", key="blow_btn"):
+        st.session_state.blown = True
+        st.rerun()
+else:
+    st.markdown('<h1 style="text-align: center; color: #ff1493;">✨ Make a Wish! ✨</h1>', unsafe_allow_html=True)
+    st.snow() 
+    st.image("https://freepik.com", width=500)
+    
+    time.sleep(3)
+    st.markdown('<p class="cake-text">💨 Now listen to the truth... Click below!</p>', unsafe_allow_html=True)
+
+    if st.session_state.prank_step == 0:
+        if st.button("Click for the first truth! 😂"):
+            st.session_state.prank_step = 1
+            st.rerun()
+    
+    if st.session_state.prank_step >= 1:
+        st.error("তুই একটা কুত্তা! 🐶")
+        if st.session_state.prank_step == 1:
+            if st.button("Next truth? 😜"):
+                st.session_state.prank_step = 2
+                st.rerun()
+    
+    if st.session_state.prank_step >= 2:
+        st.warning("তুই একটা ছাগল! 🐐")
+        if st.session_state.prank_step == 2:
+            if st.button("Final truth? 🤪"):
+                st.session_state.prank_step = 3
+                st.rerun()
+    
+    if st.session_state.prank_step >= 3:
+        st.info("পাগললললললললললললললললললললললললললললললললললললল! 🤪")
+        st.success("Happy Birthday Fariha! ❤️")
+
+st.markdown('<div class="footer">Made with ❤️ by your bestfriend</div>', unsafe_allow_html=True)
